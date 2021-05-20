@@ -1,0 +1,32 @@
+table{
+    width: 100%;
+}
+table th{
+    height: 50px;
+    color: var(--text-cor1);
+}
+table tr{
+    margin: 50px;
+}
+table td{
+    border-bottom: 1px solid var(--text-cor1);
+}
+table tr:hover{
+    background-color: var(--sobra);
+}
+table th,
+table td{
+    height: 30px;
+    color: var(--text-cor1);
+    text-align: center;
+    padding: 8px 8px;
+}
+table td a{
+    margin-left: 0px;
+}
+.BoxLista{
+    overflow-x: auto;
+}
+.ListaESTO{
+    min-width: 770px;
+}

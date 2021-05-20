@@ -1,0 +1,30 @@
+.contentCustom{
+    display: block;
+    background-clip: none;
+    border: 0px;
+    border-radius: 0px;
+    box-shadow: 5px 5px 10px var(--sobra);
+}
+.modeal-text{
+    margin-bottom: 0px;
+}
+.btnConfirmarExclusao{
+    border-color: var(--text-Excluir);
+    color: var(--text-cor2);
+    background-color: var(--text-cor1);
+    transition: all 0.3s;
+}
+.btnConfirmarExclusao:hover{
+    background-color: var(--text-Excluir);
+    color: var(--text-cor1);
+}
+.btnCancelar{
+    border-color: var(--text-cor3);
+    color: var(--text-cor2);
+    background-color: var(--text-cor1);
+    transition: all 0.3s;
+}
+.btnCancelar:hover{
+    background-color: var(--text-cor3);
+    color: var(--text-cor1);
+}
