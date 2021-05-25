@@ -23,6 +23,7 @@ public class GerenciadorConexao {
     
     public static Connection CONEXAO;
     
+    
     public static Connection abrirConexao(){
  
         URL = "jdbc:mysql://" + SERVER + ":"+PORTA+"/" +DATABASE + "?useTimezone=true&serverTimezone=UTC&useSSL=false";

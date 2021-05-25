@@ -19,7 +19,7 @@ public class ExcluirCliente extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
         
         try {
-            Cliente cli = new Cliente(Integer.parseInt(request.getParameter("ID")));
+            Cliente cli = new Cliente(Integer.parseInt(request.getParameter("ID")), "");
             
             Retorno.sendRedirecionar(ClienteDAO.Excluir(cli), response, request);
             

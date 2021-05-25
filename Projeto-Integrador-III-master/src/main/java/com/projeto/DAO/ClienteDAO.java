@@ -36,8 +36,10 @@ public class ClienteDAO {
                 if (instrucaoSQL!=null) {
                     instrucaoSQL.close();
                 }
-                conexao.close();
-                GerenciadorConexao.fecharConexao();
+                if (conexao!=null) {
+                    conexao.close();
+                    GerenciadorConexao.fecharConexao();  
+                }
             } catch (SQLException e) {
             }
         }
@@ -45,26 +47,32 @@ public class ClienteDAO {
     
     public static Cliente getCliente(Cliente cli){
 
-        ResultSet rs = null;
+        ResultSet rs;
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
         
         try{
             conexao = GerenciadorConexao.abrirConexao();
-            instrucaoSQL = conexao.prepareCall("SELECT * FROM Cliente WHERE ID_Cliente = ?");
             
-            instrucaoSQL.setInt(1, cli.getID_Cliente());
+            if (cli.getID_Cliente()>0) {
+                instrucaoSQL = conexao.prepareCall("SELECT * FROM Cliente WHERE ID_Cliente = ?");
+                instrucaoSQL.setInt(1, cli.getID_Cliente());
+            } else {
+                instrucaoSQL = conexao.prepareCall("SELECT * FROM Cliente WHERE CPF = ?");
+                instrucaoSQL.setString(1, cli.getCPF());
+            }
+            
             rs = instrucaoSQL.executeQuery();
             
             if (rs.next()) {
-                String Nome = rs.getString("Nome");
-                String CPF = rs.getString("CPF");
-                cli.setCPF(CPF);
-                cli.setNome(Nome);
+                cli.setID_Cliente(rs.getInt("ID_Cliente"));
+                cli.setCPF(rs.getString("CPF"));
+                cli.setNome(rs.getString("Nome"));
                 return cli;
             }else{
                 throw new IllegalArgumentException("erro");
             }
+            
         }catch (SQLException e){
             throw new IllegalArgumentException(e);
         }finally{
@@ -72,8 +80,10 @@ public class ClienteDAO {
                 if (instrucaoSQL!=null) {
                     instrucaoSQL.close();
                 }
-                conexao.close();
-                GerenciadorConexao.fecharConexao();
+                if (conexao!=null) {
+                    conexao.close();
+                    GerenciadorConexao.fecharConexao();  
+                }
             } catch (SQLException e) {
             }
         }
@@ -103,8 +113,10 @@ public class ClienteDAO {
                 if (instrucaoSQL!=null) {
                     instrucaoSQL.close();
                 }
-                conexao.close();
-                GerenciadorConexao.fecharConexao();
+                if (conexao!=null) {
+                    conexao.close();
+                    GerenciadorConexao.fecharConexao();  
+                }
             } catch (SQLException e) {
             }
         }
@@ -115,26 +127,32 @@ public class ClienteDAO {
         Connection conexao = null;
         PreparedStatement instrucaoSQL = null;
         
-        try{
-            conexao = GerenciadorConexao.abrirConexao();
-            instrucaoSQL = conexao.prepareStatement("INSERT INTO Cliente (Nome, CPF) VALUES (?,?)");
-            
-            instrucaoSQL.setString(1, cli.getNome());
-            instrucaoSQL.setString(2, cli.getCPF());
-            
-            int linhaAfetadas = instrucaoSQL.executeUpdate();
-            return linhaAfetadas > 0;
-            
-        } catch (SQLException e){
-            throw new IllegalArgumentException(e.getMessage());
-        }finally{
-            try {
-                if (instrucaoSQL!=null) {
-                    instrucaoSQL.close();
+        if (BobuscarCPF(cli)) {
+            throw new IllegalArgumentException("CPF já registrado");
+        }else{
+            try{
+                conexao = GerenciadorConexao.abrirConexao();
+                instrucaoSQL = conexao.prepareStatement("INSERT INTO Cliente (Nome, CPF) VALUES (?,?)");
+
+                instrucaoSQL.setString(1, cli.getNome());
+                instrucaoSQL.setString(2, cli.getCPF());
+
+                int linhaAfetadas = instrucaoSQL.executeUpdate();
+                return linhaAfetadas > 0;
+
+            } catch (SQLException e){
+                throw new IllegalArgumentException(e.getMessage());
+            }finally{
+                try {
+                    if (instrucaoSQL!=null) {
+                        instrucaoSQL.close();
+                    }
+                    if (conexao!=null) {
+                    conexao.close();
+                    GerenciadorConexao.fecharConexao();  
                 }
-                conexao.close();
-                GerenciadorConexao.fecharConexao();
-            } catch (SQLException e) {
+                } catch (SQLException e) {
+                }
             }
         }
     }
@@ -172,12 +190,48 @@ public class ClienteDAO {
                 if (instrucaoSQL!=null) {
                     instrucaoSQL.close();
                 }
-                conexao.close();
-                GerenciadorConexao.fecharConexao();
+                if (conexao!=null) {
+                    conexao.close();
+                    GerenciadorConexao.fecharConexao();  
+                }
             } catch (SQLException e) {
             }
         }
         return clientes;
     }
     
+    public static boolean BobuscarCPF(Cliente cli){
+        
+        ResultSet rs;
+        Connection conexao = null;
+        PreparedStatement instrucaoSQL = null;
+        
+        try{
+            conexao = GerenciadorConexao.abrirConexao();
+            instrucaoSQL = conexao.prepareCall("SELECT CPF FROM Cliente WHERE CPF = ?");
+            
+            instrucaoSQL.setString(1, cli.getCPF());
+            rs = instrucaoSQL.executeQuery();
+            
+            if (rs.next()) {
+                return true;
+            }else{
+                throw new IllegalArgumentException("Cliente não cadastrado");
+            }
+            
+        }catch (SQLException e){
+            throw new IllegalArgumentException(e);
+        }finally{
+            try {
+                if (instrucaoSQL!=null) {
+                    instrucaoSQL.close();
+                }
+                if (conexao!=null) {
+                    conexao.close();
+                    GerenciadorConexao.fecharConexao();  
+                }
+            } catch (SQLException e) {
+            }
+        }
+    }
 }
