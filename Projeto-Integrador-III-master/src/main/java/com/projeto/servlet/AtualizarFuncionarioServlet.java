@@ -43,11 +43,11 @@ public class AtualizarFuncionarioServlet extends HttpServlet {
             String sobrenome = request.getParameter("sobrenome");
             String email = request.getParameter("email");
             String cpf = request.getParameter("cpf");
-            String atuacao = request.getParameter("atuacao");
+            String atuacao = request.getParameter("Atuacao");
             double salario = Double.parseDouble(request.getParameter("salario").replaceAll(",", "."));
-            
-            FuncionarioUsuario fun = new FuncionarioUsuario(email, cpf, IDFilial, IDFuncionario, atuacao, salario, cpf, nome, sobrenome);
-            
+           
+            FuncionarioUsuario fun = new FuncionarioUsuario(email, IDFilial, IDFuncionario, atuacao, salario, cpf, nome, sobrenome);
+            System.err.println(fun.getAtuacao());
             Retorno.sendRedirecionar(FuncionarioDAO.Atualizar(fun), response, request);
             
         } catch (IOException | NumberFormatException | ServletException e) {

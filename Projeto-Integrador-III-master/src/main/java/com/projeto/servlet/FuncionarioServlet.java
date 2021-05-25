@@ -1,7 +1,6 @@
 package com.projeto.servlet;
 
 import com.projeto.DAO.FuncionarioDAO;
-import com.projeto.entidade.Funcionario;
 import com.projeto.entidade.FuncionarioUsuario;
 import com.projeto.uteis.CryptoUtils;
 import com.projeto.uteis.Retorno;

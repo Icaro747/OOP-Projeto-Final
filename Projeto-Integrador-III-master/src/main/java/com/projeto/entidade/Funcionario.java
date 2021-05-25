@@ -25,6 +25,11 @@ public class Funcionario extends Pessoa{
         this.Atuacao = Atuacao;
         this.Salario = Salario;
     }
+
+    public Funcionario(int ID_funcionario, String Nome) {
+        super(Nome);
+        this.ID_funcionario = ID_funcionario;
+    }
     
     public Funcionario(String Nome) {
         super(Nome);
