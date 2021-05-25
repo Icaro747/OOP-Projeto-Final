@@ -23,7 +23,7 @@ public class CadastrarCliente extends HttpServlet {
             
             String CPF = request.getParameter("CPF");
             String Nome = request.getParameter("Nome");
-            Cliente cli = new Cliente(Nome, CPF);
+            Cliente cli = new Cliente(CPF, Nome);
             
             Retorno.sendRedirecionar(ClienteDAO.AddCliente(cli), response, request);
             
