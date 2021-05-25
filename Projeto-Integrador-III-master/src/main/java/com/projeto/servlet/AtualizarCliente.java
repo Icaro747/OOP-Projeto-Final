@@ -18,11 +18,10 @@ public class AtualizarCliente extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
         try {
-            Cliente cli = new Cliente("");
-            cli.setID_Cliente(Integer.parseInt(request.getParameter("ID")));
+            Cliente cli = new Cliente(Integer.parseInt(request.getParameter("ID")),"");
             Cliente cliente = ClienteDAO.getCliente(cli);
             request.setAttribute("cliente", cliente);
-            request.getRequestDispatcher("/clientes/cadastro.jsp").forward(request, response);
+            request.getRequestDispatcher("/protegido/clientes/cadastro.jsp").forward(request, response);
             
         } catch (IOException | NumberFormatException | ServletException e) {
             String msg = e.getMessage();
@@ -41,7 +40,7 @@ public class AtualizarCliente extends HttpServlet {
             int ID = Integer.parseInt(request.getParameter("ID"));
             String CPF = request.getParameter("CPF");
             String Nome = request.getParameter("Nome");
-            Cliente cli = new Cliente(ID, Nome, CPF);
+            Cliente cli = new Cliente(ID, CPF, Nome);
             
             Retorno.sendRedirecionar(ClienteDAO.Atualizar(cli), response, request);
             

@@ -148,9 +148,9 @@ public class ClienteDAO {
                         instrucaoSQL.close();
                     }
                     if (conexao!=null) {
-                    conexao.close();
-                    GerenciadorConexao.fecharConexao();  
-                }
+                        conexao.close();
+                        GerenciadorConexao.fecharConexao();  
+                    }
                 } catch (SQLException e) {
                 }
             }
@@ -216,7 +216,8 @@ public class ClienteDAO {
             if (rs.next()) {
                 return true;
             }else{
-                throw new IllegalArgumentException("Cliente não cadastrado");
+                return false;
+                //throw new IllegalArgumentException("Cliente não cadastrado");
             }
             
         }catch (SQLException e){
